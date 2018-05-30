@@ -8,7 +8,6 @@ def naver_trend_to_json(trend_text):
     hms = list[1].split(" ")[0].split(":"); #시간 분 초 의 list
     d = datetime(int(ymd[0]),int(ymd[1]),int(ymd[2]), int(hms[0]), int(hms[1]),int(hms[2].split(" ")[0]))
     unixtime = int(time.mktime(d.timetuple()))
-    print(trend_text)
     dic = {}
     dic1 = {}
     for idx in range(2,len(list)):
