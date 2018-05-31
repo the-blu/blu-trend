@@ -5,14 +5,14 @@
 
     This is a package for get trend
 
-    OpenAPI spec version: 0.1.5
+    OpenAPI spec version: 0.1.9
     Contact: originman@bluehack.net
 """
 
 from setuptools import setup, find_packages
 
 NAME = "blu-trend"
-VERSION = "0.1.5"
+VERSION = "0.1.9"
 # To install the library, run the following
 #
 # python setup.py install

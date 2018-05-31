@@ -29,8 +29,8 @@ class Naver_trend():
             driver.quit()
         return trend_text
 
-    def save_json_trend(self):
+    def save_json_trend(self,destination):
         j = trend_to_json_parser.naver_trend_to_json(self.crawl_trend())
-        f = open("naver_trend.json", 'wb')
+        f = open(destination+"naver_trend.json", 'wb')
         f.write(j)
         f.close()

@@ -29,8 +29,8 @@ class Daum_trend():
             driver.quit()
         return trend_text
 
-    def save_json_trend(self):
+    def save_json_trend(self,destination):
         j = trend_to_json_parser.daum_trend_to_json(self.crawl_trend())
-        f = open("daum_trend.json", 'wb')
+        f = open(destination+"daum_trend.json", 'wb')
         f.write(j)
         f.close()

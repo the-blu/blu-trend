@@ -34,7 +34,6 @@ def naver_trend_to_json(trend_text):
     for idx in range(2,len(list)):
         a = list[idx].split(" ")
         dic1[a[0]]= list[idx].split(a[0]+" ")[1]
-
     dic[str(unixtime)] = dic1
     j = json.dumps(dic,ensure_ascii=False).encode("utf8")
     return j

@@ -50,8 +50,8 @@ class Melon_chart():
             driver_51_to_100.quit()
         return melon_chart_artist_title
 
-    def save_json_trend(self):
+    def save_json_trend(self,destination):
         j = trend_to_json_parser.melon_chart_to_json(self.crawl_trend())
-        f = open("melon_chart.json", 'wb')
+        f = open(destination+"melon_chart.json", 'wb')
         f.write(j)
         f.close()
