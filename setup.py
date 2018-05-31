@@ -5,14 +5,14 @@
 
     This is a package for get trend
 
-    OpenAPI spec version: 0.0.1
+    OpenAPI spec version: 0.1.5
     Contact: originman@bluehack.net
 """
 
 from setuptools import setup, find_packages
 
 NAME = "blu-trend"
-VERSION = "0.0.1"
+VERSION = "0.1.5"
 # To install the library, run the following
 #
 # python setup.py install
@@ -20,7 +20,8 @@ VERSION = "0.0.1"
 # prerequisite: setuptools
 # http://pypi.python.org/pypi/setuptools
 
-REQUIRES = ["selenium"]
+REQUIRES = ["selenium",
+            "chromedriver_binary"]
 
 setup(
     name=NAME,
