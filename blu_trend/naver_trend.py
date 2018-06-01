@@ -2,6 +2,9 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import WebDriverException
 from blu_trend import trend_to_json_parser
 import chromedriver_binary
 
@@ -25,6 +28,8 @@ class Naver_trend():
             driver.get(TEST_URL)
             xxx = WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.CSS_SELECTOR, "div[class='keyword_rank select_date']")))
             trend_text = xxx.text
+        except (WebDriverException, TimeoutException, NoSuchElementException) as e:
+            print(e.message)
         finally:
             driver.quit()
         return trend_text

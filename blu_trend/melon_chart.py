@@ -2,6 +2,9 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import WebDriverException
 from blu_trend import trend_to_json_parser
 import chromedriver_binary
 
@@ -45,6 +48,8 @@ class Melon_chart():
                 title[idx] = title_webelement[idx].text
             melon_chart_artist_title[0] = artist
             melon_chart_artist_title[1] = title
+        except (WebDriverException, TimeoutException, NoSuchElementException) as e:
+            print(e.message)
         finally:
             driver_1_to_50.quit()
             driver_51_to_100.quit()
