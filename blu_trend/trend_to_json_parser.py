@@ -1,6 +1,7 @@
 from datetime import datetime
 import time
 import json
+import re
 
 def daum_trend_to_json(trend_text):
     list = trend_text.split("\n")
@@ -21,7 +22,7 @@ def daum_trend_to_json(trend_text):
 
     dic[unixtime] = dic1
     j = json.dumps(dic, ensure_ascii=False).encode("utf8")
-    return j
+    return dic
 
 def naver_trend_to_json(trend_text):
     list = trend_text.split("\n")
@@ -36,12 +37,13 @@ def naver_trend_to_json(trend_text):
         dic1[a[0]]= list[idx].split(a[0]+" ")[1]
     dic[str(unixtime)] = dic1
     j = json.dumps(dic,ensure_ascii=False).encode("utf8")
-    return j
+    return dic
 
 
-def melon_chart_to_json(melon_chart_artist_title):
-    artist = melon_chart_artist_title[0]
-    title = melon_chart_artist_title[1]
+def melon_chart_to_json(melon_chart):
+    artist = melon_chart[0]
+    title = melon_chart[1]
+    link = melon_chart[2]
     nowtime = str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
     timelist = nowtime.split(" ")
     ymd = timelist[0].split("-")
@@ -51,7 +53,12 @@ def melon_chart_to_json(melon_chart_artist_title):
     dic = {}
     dic1 = {}
     for idx in range(0,len(artist)):
-        dic1[idx+1] = artist[idx] + " - " + title[idx]
+        dic2 = {}
+        dic2['content'] = artist[idx] + " - " + title[idx]
+        linkbuf = (re.findall('\d+', link[idx]))
+        l = "melonplayer://play?ref=&menuid="+linkbuf[0]+"&cid="+linkbuf[1]
+        dic2['link']= l
+        dic1[idx+1] = dic2
     dic[str(unixtime)] = dic1
     j = json.dumps(dic, ensure_ascii=False).encode("utf8")
-    return j
+    return dic

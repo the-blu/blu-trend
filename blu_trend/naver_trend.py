@@ -7,6 +7,8 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import WebDriverException
 from blu_trend import trend_to_json_parser
 import chromedriver_binary
+import logging
+import traceback
 
 
 class Naver_trend():
@@ -28,14 +30,15 @@ class Naver_trend():
             driver.get(TEST_URL)
             xxx = WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.CSS_SELECTOR, "div[class='keyword_rank select_date']")))
             trend_text = xxx.text
-        except (WebDriverException, TimeoutException, NoSuchElementException) as e:
-            print(e.message)
+        except (WebDriverException, TimeoutException, NoSuchElementException):
+            logging.error(traceback.format_exc())
         finally:
             driver.quit()
         return trend_text
 
-    def save_json_trend(self,destination):
+    def get_trend(self):
         j = trend_to_json_parser.naver_trend_to_json(self.crawl_trend())
-        f = open(destination+"naver_trend.json", 'wb')
-        f.write(j)
-        f.close()
+        return j
+        # f = open(destination+"naver_trend.json", 'wb')
+        # f.write(j)
+        # f.close()

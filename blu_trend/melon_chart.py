@@ -7,6 +7,9 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import WebDriverException
 from blu_trend import trend_to_json_parser
 import chromedriver_binary
+import logging
+import traceback
+
 
 class Melon_chart():
     def __init__(self):
@@ -26,11 +29,13 @@ class Melon_chart():
         melon_chart_artist_title = {};
         try:
             driver_1_to_50 = webdriver.Chrome(chromedriver_binary.chromedriver_filename, chrome_options=options)
-            driver_1_to_50.get('https://www.melon.com/chart/')
+            driver_1_to_50.get(TEST_URL1)
             title_1_to_50 = WebDriverWait(driver_1_to_50, 3).until(
                 EC.presence_of_all_elements_located((By.CSS_SELECTOR, "#lst50 > td:nth-child(6) > div > div > div.ellipsis.rank01")))
             artist_1_to_50 = WebDriverWait(driver_1_to_50, 3).until(
                 EC.presence_of_all_elements_located((By.CSS_SELECTOR, "#lst50 > td:nth-child(6) > div > div > div.ellipsis.rank02")))
+            link_1_t0_50 = WebDriverWait(driver_1_to_50, 3).until(
+                EC.presence_of_all_elements_located((By.CSS_SELECTOR, "#lst50 > td:nth-child(9) > div > button")))
 
             driver_51_to_100 = webdriver.Chrome(chromedriver_binary.chromedriver_filename, chrome_options=options)
             driver_51_to_100.get(TEST_URL2)
@@ -38,25 +43,32 @@ class Melon_chart():
                 EC.presence_of_all_elements_located((By.CSS_SELECTOR, "#lst100 > td:nth-child(6) > div > div > div.ellipsis.rank01")))
             artist_51_to_100 = WebDriverWait(driver_51_to_100, 3).until(
                 EC.presence_of_all_elements_located((By.CSS_SELECTOR, "#lst100 > td:nth-child(6) > div > div > div.ellipsis.rank02")))
+            link_51_tp_100 =  WebDriverWait(driver_51_to_100, 3).until(
+                EC.presence_of_all_elements_located((By.CSS_SELECTOR, "#lst100 > td:nth-child(9) > div > button")))
 
             title_webelement = title_1_to_50 + title_51_to_100
             artist_webelement = artist_1_to_50 + artist_51_to_100
+            link_webelement = link_1_t0_50 + link_51_tp_100
             artist = {}
             title = {}
+            link = {}
             for idx in range (0,len(artist_webelement)):
                 artist[idx] = artist_webelement[idx].text
                 title[idx] = title_webelement[idx].text
+                link[idx] = link_webelement[idx].get_attribute("onclick")
             melon_chart_artist_title[0] = artist
             melon_chart_artist_title[1] = title
-        except (WebDriverException, TimeoutException, NoSuchElementException) as e:
-            print(e.message)
+            melon_chart_artist_title[2] = link
+        except (WebDriverException, TimeoutException, NoSuchElementException):
+            logging.error(traceback.format_exc())
         finally:
             driver_1_to_50.quit()
             driver_51_to_100.quit()
         return melon_chart_artist_title
 
-    def save_json_trend(self,destination):
+    def get_trend(self):
         j = trend_to_json_parser.melon_chart_to_json(self.crawl_trend())
-        f = open(destination+"melon_chart.json", 'wb')
-        f.write(j)
-        f.close()
+        return j
+        # f = open(destination+"melon_chart.json", 'wb')
+        # f.write(j)
+        # f.close()
