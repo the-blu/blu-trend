@@ -56,7 +56,7 @@ def melon_chart_to_json(melon_chart):
         dic2 = {}
         dic2['content'] = artist[idx] + " - " + title[idx]
         linkbuf = (re.findall('\d+', link[idx]))
-        l = "melonplayer://play?ref=&menuid="+linkbuf[0]+"&cid="+linkbuf[1]
+        l = "melonapp://play?ref=&ctype=1&menuid="+linkbuf[0]+"&cid="+linkbuf[1]
         dic2['link']= l
         dic1[idx+1] = dic2
     dic[str(unixtime)] = dic1
